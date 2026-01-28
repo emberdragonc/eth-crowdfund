@@ -49,6 +49,8 @@ contract CrowdfundFactory {
         uint256[] calldata milestoneAmounts,
         uint256[] calldata milestoneDeadlines
     ) external returns (address campaign) {
+        if (msg.sender == address(0)) revert InvalidParameters();
+
         campaign = address(new Campaign(
             msg.sender,
             title,

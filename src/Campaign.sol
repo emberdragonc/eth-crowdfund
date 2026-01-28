@@ -314,8 +314,8 @@ contract Campaign is ReentrancyGuard {
         Milestone storage m = milestones[milestoneId];
         uint256 totalVotes = m.votesFor + m.votesAgainst;
         
-        // Default to approved if no votes (trust the creator)
-        bool approved = totalVotes == 0 || (m.votesFor * 100) / totalVotes >= APPROVAL_THRESHOLD;
+        // Require at least one vote to approve, or explicit majority
+        bool approved = totalVotes > 0 && (m.votesFor * 100) / totalVotes >= APPROVAL_THRESHOLD;
         
         if (approved) {
             m.status = MilestoneStatus.Approved;
